@@ -1,5 +1,6 @@
 id:
 observations: text
+destination: city
 
 user:
   id:
@@ -7,8 +8,10 @@ user:
   lastname: lastName
 
 vehicule:
-  id: uuid
+  id:
+  image:
   nom: word
   plaque: xx-xxx-xx
 
-departure: date
+departure: dateTime
+arrival: dateTime
