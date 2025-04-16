@@ -10,10 +10,11 @@ $CONF_INIT_FILE = __DIR__.'/../conf/json_template.yaml';
 $conf = Yaml::parseFile($CONF_INIT_FILE);
 $fileName = $conf['template']['name'];
 $quantity = $conf['template']['quantity'];
+$templatesRepertory = $conf['init']['repertory'];
 
 $arrayGenerator = ArrayGeneratorFactory::create();
 
-$filePath = __DIR__."/../jsonTemplate/$fileName.yaml";
+$filePath = __DIR__."/../$templatesRepertory/$fileName.yaml";
 $template = Yaml::parseFile($filePath);
 
 
