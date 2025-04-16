@@ -1,0 +1,14 @@
+id:
+observations: text
+
+user:
+  id:
+  firstname: firstName
+  lastname: lastName
+
+vehicule:
+  id: uuid
+  nom: word
+  plaque: xx-xxx-xx
+
+departure: date
