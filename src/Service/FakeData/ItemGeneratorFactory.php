@@ -3,6 +3,7 @@
 namespace App\Service\FakeData;
 
 use App\Entity\Template;
+use App\Service\TemplateProvider;
 use Faker\Factory;
 use Symfony\Component\Yaml\Yaml;
 
@@ -20,7 +21,12 @@ class ItemGeneratorFactory {
         self::$confFaker                 ??= Yaml::parseFile(self::$CONF_FAKER_FILE);
         self::$generators[$templateName] ??= new ItemGenerator(
             Factory::create(self::$confFaker['locale']),
-            new Template($templateName, $templateStruct),
+            !$templateStruct //@TODO: REFAC peut-être virer les params du construct d'ItemGenerator
+                ?
+                TemplateProvider::find($templateName)
+                :
+                (new Template())->setName($templateName)
+                                ->setStructure($templateStruct),
         );
 
         return self::$generators[$templateName];
