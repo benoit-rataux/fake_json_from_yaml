@@ -3,15 +3,15 @@ observations: text
 destination: city
 
 user:
-  id:
-  firstname: firstName
-  lastname: lastName
+    id: rng 10
+    firstname: firstName
+    lastname: lastName
 
 vehicule:
-  id:
-  image:
-  nom: word
-  plaque: xx-xxx-xx
+    id:
+    image: http://unesuperimagedevoiture.jpg
+    nom: word
+    plaque: xx-xxx-xx
 
 departure: dateTime
 arrival: dateTime

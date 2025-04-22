@@ -1,23 +1,23 @@
 <?php
 
-require_once __DIR__.'/../vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
+use App\Service\FakeData\ItemGeneratorFactory;
 use Symfony\Component\Yaml\Yaml;
-use App\Service\FakeData\ArrayGeneratorFactory;
 
-$CONF_INIT_FILE = __DIR__.'/../conf/json_template.yaml';
+$CONF_INIT_FILE = __DIR__ . '/../conf/json_template.yaml';
 
-$conf = Yaml::parseFile($CONF_INIT_FILE);
-$fileName = $conf['template']['name'];
-$quantity = $conf['template']['quantity'];
+$conf               = Yaml::parseFile($CONF_INIT_FILE);
+$templateName       = $conf['template']['name'];
+$quantity           = $conf['template']['quantity'];
 $templatesRepertory = $conf['init']['repertory'];
 
-$arrayGenerator = ArrayGeneratorFactory::create();
+$itemGenerator = ItemGeneratorFactory::create($templateName);
 
-$filePath = __DIR__."/../$templatesRepertory/$fileName.yaml";
+$filePath = __DIR__ . "/../$templatesRepertory/$templateName.yaml";
 $template = Yaml::parseFile($filePath);
 
 
-$faked = $arrayGenerator->createFromTemplate($template, $quantity);
+$faked = $itemGenerator->create($template, $quantity);
 
-echo '<pre>'.json_encode($faked).'</pre>';
+echo '<pre>' . json_encode($faked) . '</pre>';
