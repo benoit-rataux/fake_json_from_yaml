@@ -2,26 +2,26 @@
 
 namespace App\Service\FakeData;
 
+use App\Entity\Template;
 use Exception;
 use Faker\Generator;
 
 class ItemGenerator {
 
-    private $quantityToCreate  = 1;
-    private $countItemsCreated = 0;
+    private int $quantityToCreate  = 1;
+    private int $countItemsCreated = 0;
 
     public function __construct(
         private readonly Generator $faker,
+        private readonly Template  $template,
     ) {}
 
-    public function createOne(
-        array $template,
-    ): array {
+    public function createOne(): array {
 
         $fakeItem = [];
         $this->countItemsCreated++;
 
-        foreach($template as $key => $value) {
+        foreach($this->template->getStructure() as $key => $value) {
             if($key === 'id') {
 
                 if($value === null) {
@@ -52,8 +52,8 @@ class ItemGenerator {
             }
 
             if(is_array($value)) {
-                $subItemGenerator = ItemGeneratorFactory::create($key);
-                $fakeItem[$key]   = $subItemGenerator->createOne($value);
+                $subItemGenerator = ItemGeneratorFactory::create($key, $value);
+                $fakeItem[$key]   = $subItemGenerator->createOne();
                 continue;
             }
 
@@ -70,25 +70,23 @@ class ItemGenerator {
     }
 
     public function createList(
-        array $template,
-        int   $quantity,
+        int $quantity,
     ): array {
         $list                   = [];
         $this->quantityToCreate = $quantity;
 
         for($i = 0; $i < $quantity; ++$i) {
-            $list[] = $this->createOne($template);
+            $list[] = $this->createOne();
         }
 
         return $list;
     }
 
     public function create(
-        array $template,
-        int   $quantity = 1,
+        int $quantity = 1,
     ): array {
-        if($quantity === 1) return $this->createOne($template);
-        else                return $this->createList($template, $quantity);
+        if($quantity === 1) return $this->createOne();
+        else                return $this->createList($quantity);
     }
 
 }

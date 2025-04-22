@@ -4,8 +4,8 @@ destination: city
 
 user:
     id: rng 2
-        firstname: firstName
-        lastname: lastName
+    firstname: firstName
+    lastname: lastName
 
 vehicule:
     id:

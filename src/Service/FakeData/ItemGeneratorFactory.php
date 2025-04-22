@@ -2,21 +2,28 @@
 
 namespace App\Service\FakeData;
 
+use App\Entity\Template;
 use Faker\Factory;
 use Symfony\Component\Yaml\Yaml;
 
 class ItemGeneratorFactory {
 
-    private static string $CONF_FILE = __DIR__ . '/../../../conf/faker.yaml';
-    private static array  $conf;
+    private static string $CONF_FAKER_FILE = __DIR__ . '/../../../conf/faker.yaml';
+    private static array  $confFaker;
     private static array  $generators;
 
-    public static function create(string $itemType): ItemGenerator {
+    public static function create(
+        string $templateName,
+        array  $templateStruct = null,
+    ): ItemGenerator {
 
-        $conf                        ??= Yaml::parseFile(self::$CONF_FILE);
-        self::$generators[$itemType] ??= new ItemGenerator(Factory::create($conf['locale']));
+        self::$confFaker                 ??= Yaml::parseFile(self::$CONF_FAKER_FILE);
+        self::$generators[$templateName] ??= new ItemGenerator(
+            Factory::create(self::$confFaker['locale']),
+            new Template($templateName, $templateStruct),
+        );
 
-        return self::$generators[$itemType];
+        return self::$generators[$templateName];
     }
 
 }

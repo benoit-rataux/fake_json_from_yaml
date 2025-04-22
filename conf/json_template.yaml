@@ -1,6 +1,5 @@
-init:
-  repertory: json_template
+templates_directory: json_template
 
 template:
-  name: booking
-  quantity: 10
+    name: booking
+    quantity: 10
