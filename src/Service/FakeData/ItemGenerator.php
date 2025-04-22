@@ -39,14 +39,19 @@ class ItemGenerator {
                 if($isRandom) {
                     //id: rng         --> entier unique aléatoire, entre 1 et [nombre d'item]
                     //id: rng [value] --> entier unique aléatoire, entre 1 et [value]
-                    $maxID          = $matches['number'] ?? $this->quantityToCreate;
-                    $fakeItem[$key] = $this->faker->unique()->numberBetween(1, $maxID);
+                    $maxID = $matches['number'] ?? $this->quantityToCreate;
+                    try {
+                        $fakeItem[$key] = $this->faker->unique()->numberBetween(1, $maxID);
+
+                    }
+                    catch(Exception $exception) {
+                        $fakeItem[$key] = $this->faker->numberBetween(1, $maxID);
+                    }
                     continue;
                 }
             }
 
             if(is_array($value)) {
-//                $fakeItem[$key] = $this->createOne($value);
                 $subItemGenerator = ItemGeneratorFactory::create($key);
                 $fakeItem[$key]   = $subItemGenerator->createOne($value);
                 continue;
