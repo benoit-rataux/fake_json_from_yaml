@@ -57,9 +57,12 @@ class ItemGenerator {
                 continue;
             }
 
+            //@TODO: cas voiture: template
+
             try {
                 $fakeItem[$key] = $this->faker->$value;
-
+                //@TODO: améliorer les dateTime
+                //@TODO: option d'ajouter le mot clé 'unique' en préfixe dans $value
             }
             catch(Exception $e) {
                 $fakeItem[$key] = $value;
