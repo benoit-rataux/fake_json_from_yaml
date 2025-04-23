@@ -1,5 +1,5 @@
-templates_directory: json_template
+templates_directory: json_template/examples/music_concert
 
 template:
-    name: booking
-    quantity: 10
+    name: concert
+    quantity: 1

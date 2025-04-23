@@ -52,12 +52,14 @@ class ItemGenerator {
             }
 
             if(is_array($value)) {
-                $subItemGenerator = ItemGeneratorFactory::create($key, $value);
-                $fakeItem[$key]   = $subItemGenerator->createOne();
+                $fakeItem[$key] = $this->createSubItem($key, $value);
                 continue;
             }
 
-            //@TODO: cas voiture: template
+            if($value == 'template') {
+                $fakeItem[$key] = $this->createSubItem($key);
+                continue;
+            }
 
             try {
                 $fakeItem[$key] = $this->faker->$value;
@@ -90,6 +92,16 @@ class ItemGenerator {
     ): array {
         if($quantity === 1) return $this->createOne();
         else                return $this->createList($quantity);
+    }
+
+    private function createSubItem(
+        string $templateName,
+        array  $templateStruct = null,
+    ): array {
+        $subItemGenerator = ItemGeneratorFactory::create($templateName,
+                                                         $templateStruct,
+        );
+        return $subItemGenerator->createOne();
     }
 
 }
