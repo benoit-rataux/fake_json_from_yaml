@@ -51,6 +51,13 @@ class ItemGenerator {
                 }
             }
 
+            if(is_array($value) && array_is_list($value)) {
+                $countItems      = array_count_values($value);
+                $randomItemIndex = $this->faker->numberBetween(0, $countItems);
+                $fakeItem[$key]  = $value[$randomItemIndex];
+                continue;
+            }
+
             if(is_array($value)) {
                 $fakeItem[$key] = $this->createSubItem($key, $value);
                 continue;
