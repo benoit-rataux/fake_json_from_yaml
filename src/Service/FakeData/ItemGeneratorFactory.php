@@ -3,7 +3,7 @@
 namespace App\Service\FakeData;
 
 use App\Entity\Template;
-use App\Service\TemplateProvider;
+use App\Provider\TemplateProvider;
 use Faker\Factory;
 use Symfony\Component\Yaml\Yaml;
 

@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Service;
+namespace App\Provider;
 
 use App\Entity\Template;
+use App\Service\Configuration;
 use Symfony\Component\Yaml\Yaml;
 
 class TemplateProvider {
