@@ -13,3 +13,5 @@ $itemGenerator = ItemGeneratorFactory::create($templateName);
 $faked = $itemGenerator->create(InputProvider::quantityToGenerate());
 
 echo '<pre>' . json_encode($faked) . '</pre>';
+
+(new \App\Repository\ItemRepository())->save($faked);
