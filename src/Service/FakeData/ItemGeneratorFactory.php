@@ -18,13 +18,12 @@ class ItemGeneratorFactory {
         array  $templateStruct = null,
     ): ItemGenerator {
 
-        self::$confFaker                 ??= Yaml::parseFile(self::$CONF_FAKER_FILE);
+        self::$confFaker ??= Yaml::parseFile(self::$CONF_FAKER_FILE);
+
         self::$generators[$templateName] ??= new ItemGenerator(
             Factory::create(self::$confFaker['locale']),
-            !$templateStruct //@TODO: REFAC peut-être virer les params du construct d'ItemGenerator
-                ?
-                TemplateProvider::find($templateName)
-                :
+            !$templateStruct ?
+                TemplateProvider::find($templateName) :
                 (new Template())->setName($templateName)
                                 ->setStructure($templateStruct),
         );
