@@ -1,4 +1,4 @@
 id:
 salle: template
 band: template
-date: date
+date: datetime

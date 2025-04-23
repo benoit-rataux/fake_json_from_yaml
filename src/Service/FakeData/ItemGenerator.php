@@ -68,9 +68,16 @@ class ItemGenerator {
                 continue;
             }
 
+            //@TODO: améliorer les dateTime
+            if($value === 'datetime') {
+                $formatedDateTime = $this->faker->dateTime()->format('Y-m-d H:i:s');
+                $formatedDateTime = str_replace(' ', 'T', $formatedDateTime);
+                $fakeItem[$key]   = $formatedDateTime;
+                continue;
+            }
+
             try {
                 $fakeItem[$key] = $this->faker->$value;
-                //@TODO: améliorer les dateTime
                 //@TODO: option d'ajouter le mot clé 'unique' en préfixe dans $value
             }
             catch(Exception $e) {
