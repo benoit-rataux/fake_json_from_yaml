@@ -1,5 +1,5 @@
-templates_directory: examples/music_concert
+templates_directory: SynapsIA/fms
 
 template:
-    name: concert
-    quantity: 1
+    name: reservation
+    quantity: 10
