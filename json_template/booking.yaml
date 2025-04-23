@@ -8,10 +8,10 @@ user:
     lastname: lastName
 
 vehicule:
-    id:
-    image: http://unesuperimagedevoiture.jpg
-    nom: word
-    plaque: xx-xxx-xx
+  id: uuid
+  image: https://www.europcar-atlantique.fr/upload/images/Categories/Citadine/Economique5Portes.jpg?width=700
+  nom: word
+  plaque: xx-xxx-xx
 
 departure: dateTime
 arrival: dateTime
