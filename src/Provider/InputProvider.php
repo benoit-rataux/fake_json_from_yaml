@@ -19,15 +19,15 @@ class InputProvider {
         return self::$conf;
     }
 
-    public static function templatesDirectory() {
+    public static function templatesDirectory(): string {
         return self::conf()['templates_directory'] . '/';
     }
 
-    public static function templateName() {
+    public static function templateName(): string {
         return self::conf()['template']['name'];
     }
 
-    public static function quantityToGenerate() {
+    public static function quantityToGenerate(): int {
         return self::conf()['template']['quantity'];
     }
 
