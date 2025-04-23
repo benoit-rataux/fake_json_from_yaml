@@ -1,17 +1,17 @@
 id:
-observations: text
+date_start: "2025-04-25 08:30:00"
+date_end: "2025-04-25 12:00:00"
 destination: city
+observations: text
+status: "1"
 
 user:
-    id: rng 2
+    id: rng 10
     firstname: firstName
     lastname: lastName
 
 vehicule:
-  id: uuid
+  id:
   image: https://www.europcar-atlantique.fr/upload/images/Categories/Citadine/Economique5Portes.jpg?width=700
   nom: word
-  plaque: xx-xxx-xx
-
-departure: dateTime
-arrival: dateTime
+  matricule: xx-xxx-xx
