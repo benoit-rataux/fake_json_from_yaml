@@ -1,19 +1,20 @@
 <?php
 
-namespace App\Service;
+namespace App\Provider;
 
+use App\Service\Utils;
 use Symfony\Component\Yaml\Yaml;
 
-class Configuration {
+class InputProvider {
 
-    private static string $CONF_PATH = 'conf/';
-    private static string $CONF_FILE = 'json_template.yaml';
+    private static string $PATH       = '';
+    private static string $INPUT_FILE = 'input.yaml';
     private static array  $conf;
 
     private static function conf(): array {
         self::$conf ??= Yaml::parseFile(Utils::$APP_ROOT
-                                        . self::$CONF_PATH
-                                        . self::$CONF_FILE,
+                                        . self::$PATH
+                                        . self::$INPUT_FILE,
         );
         return self::$conf;
     }

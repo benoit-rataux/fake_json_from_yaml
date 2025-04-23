@@ -3,7 +3,6 @@
 namespace App\Provider;
 
 use App\Entity\Template;
-use App\Service\Configuration;
 use App\Service\Utils;
 use Symfony\Component\Yaml\Yaml;
 
@@ -14,7 +13,7 @@ class TemplateProvider {
     public static function find(string $templateName): Template {
         $templateStruct = Yaml::parseFile(Utils::$APP_ROOT
                                           . self::$TEMPLATES_DIR
-                                          . Configuration::templatesDirectory()
+                                          . InputProvider::templatesDirectory()
                                           . "$templateName.yaml",
         );
 

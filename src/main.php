@@ -2,14 +2,14 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use App\Service\Configuration;
+use App\Provider\InputProvider;
 use App\Service\FakeData\ItemGeneratorFactory;
 
 
-$templateName  = Configuration::templateName();
+$templateName  = InputProvider::templateName();
 $itemGenerator = ItemGeneratorFactory::create($templateName);
 
 
-$faked = $itemGenerator->create(Configuration::quantityToGenerate());
+$faked = $itemGenerator->create(InputProvider::quantityToGenerate());
 
 echo '<pre>' . json_encode($faked) . '</pre>';
