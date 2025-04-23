@@ -1,4 +1,4 @@
-templates_directory: json_template/examples/music_concert
+templates_directory: examples/music_concert
 
 template:
     name: concert
