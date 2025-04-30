@@ -10,6 +10,7 @@ class ItemGenerator {
 
     private int $quantityToCreate  = 1;
     private int $countItemsCreated = 0;
+    private int $autoIncID         = 1;
 
     public function __construct(
         private readonly Generator $faker,
@@ -23,39 +24,13 @@ class ItemGenerator {
 
         foreach($this->template->getStructure() as $key => $value) {
             if($key === 'id') {
-
-                if($value === null) {
-                    //id: null        --> incrément automatique, commençant par 1
-                    $fakeItem[$key] = $this->countItemsCreated;
-                    continue;
-                }
-
-                $isRandom = preg_match('~^rng\s?(?<number>\d+)*$~',
-                                       $value,
-                                       $matches,
-                                       PREG_UNMATCHED_AS_NULL,
-                );
-
-                if($isRandom) {
-                    //id: rng         --> entier unique aléatoire, entre 1 et [nombre d'item]
-                    //id: rng [value] --> entier unique aléatoire, entre 1 et [value]
-                    $maxID = $matches['number'] ?? $this->quantityToCreate;
-                    try {
-                        $fakeItem[$key] = $this->faker->unique()->numberBetween(1, $maxID);
-
-                    }
-                    catch(Exception $exception) {
-                        $fakeItem[$key] = $this->faker->numberBetween(1, $maxID);
-                    }
-                    continue;
-                }
+                $fakeItem[$key] = $this->createID($value);
+                continue;
             }
 
             $isList = is_array($value) && array_is_list($value);
-            if(is_array($value) && array_is_list($value)) {
-                $countItems      = sizeof($value);
-                $randomItemIndex = $this->faker->numberBetween(1, $countItems) - 1;
-                $fakeItem[$key]  = $value[$randomItemIndex];
+            if($isList) {
+                $fakeItem[$key] = $this->randomItem($value);
                 continue;
             }
 
@@ -71,9 +46,7 @@ class ItemGenerator {
 
             //@TODO: améliorer les dateTime
             if($value === 'datetime') {
-                $formatedDateTime = $this->faker->dateTime()->format('Y-m-d H:i:s');
-                $formatedDateTime = str_replace(' ', 'T', $formatedDateTime);
-                $fakeItem[$key]   = $formatedDateTime;
+                $fakeItem[$key] = $this->randomDateTime();
                 continue;
             }
 
@@ -118,5 +91,53 @@ class ItemGenerator {
         );
         return $subItemGenerator->createOne();
     }
+
+    private function randomItem(array $list) {
+        $countItems      = sizeof($list);
+        $randomItemIndex = $this->faker->numberBetween(1, $countItems) - 1;
+        return $list[$randomItemIndex];
+    }
+
+    private function randomDateTime() {
+        $formatedDateTime = $this->faker->dateTime()->format('Y-m-d H:i:s');
+        return str_replace(' ', 'T', $formatedDateTime);
+    }
+
+    private function createID(string|null $value) {
+
+        if($value === null) {
+            return $this->autoIncID();
+        }
+
+        $isRandom = preg_match('~^rng\s?(?<number>\d+)*$~',
+                               $value,
+                               $matches,
+                               PREG_UNMATCHED_AS_NULL,
+        );
+
+        if($isRandom) {
+            //id: rng         --> entier unique aléatoire, entre 1 et [nombre d'item]
+            //id: rng [maxID] --> entier unique aléatoire, entre 1 et [maxID]
+            $maxID = $matches['number'] ?? $this->quantityToCreate;
+            return $this->randomID($maxID);
+        }
+
+        return $this->autoIncID();
+    }
+
+    private function autoIncID() {
+        return $this->autoIncID++;
+    }
+
+    private function randomID(int $maxID) {
+        try {
+            return $this->faker->unique()->numberBetween(1, $maxID);
+
+        }
+        catch(Exception $exception) {
+            return $this->faker->numberBetween(1, $maxID);
+        }
+    }
+
 
 }
