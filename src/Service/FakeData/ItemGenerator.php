@@ -24,7 +24,7 @@ class ItemGenerator {
 
         foreach($this->template->getStructure() as $key => $value) {
             if($key === 'id') {
-                $fakeItem[$key] = $this->createID($value);
+                $fakeItem[$key] = $this->id($value);
                 continue;
             }
 
@@ -103,7 +103,7 @@ class ItemGenerator {
         return str_replace(' ', 'T', $formatedDateTime);
     }
 
-    private function createID(string|null $value) {
+    private function id(string|null $value) {
 
         if($value === null) {
             return $this->autoIncID();
