@@ -144,20 +144,24 @@ class ItemGenerator {
         if($this->isNestedTemplate($instructions)) return $this->createSubItem($key, $instructions);
 
         $instructionsWords = explode(' ', $instructions);
+        $instructionsCount = sizeof($instructionsWords);
 
-        if($instructionsWords[0] == 'template') {
-            if(sizeof($instructionsWords) == 1) return $this->createSubItem($key);
-            if(sizeof($instructionsWords) == 2) return $this->createSubListOfItems($key, $instructionsWords[1]);
-            if(sizeof($instructionsWords) == 3) {
-                if($instructionsWords[1] === 'rng') {
-                    $quantity = $this->faker->numberBetween(0, $instructionsWords[2]);
-                    return $this->createSubListOfItems($key, $quantity);
-                }
+        if($instructionsWords[0] == 'template' && $instructionsCount >= 2) {
+            $templateName = $instructionsWords[1];
+            // key: template template_name [quantity]
+            // key: template template_name rng [min] max
+            if($instructionsCount == 2) return $this->createSubItem($templateName);
+            if($instructionsCount == 3) {
+                return $this->createSubListOfItems($templateName, $instructionsWords[2]);
             }
-            if(sizeof($instructionsWords) == 4) {
-                if($instructionsWords[1] === 'rng') {
-                    $quantity = $this->faker->numberBetween($instructionsWords[2], $instructionsWords[3]);
-                    return $this->createSubListOfItems($key, $quantity);
+            if($instructionsWords[2] === 'rng') {
+                if($instructionsCount == 4) {
+                    $quantity = $this->faker->numberBetween(0, $instructionsWords[3]);
+                    return $this->createSubListOfItems($templateName, $quantity);
+                }
+                if($instructionsCount == 5) {
+                    $quantity = $this->faker->numberBetween($instructionsWords[3], $instructionsWords[4]);
+                    return $this->createSubListOfItems($templateName, $quantity);
                 }
             }
         }
