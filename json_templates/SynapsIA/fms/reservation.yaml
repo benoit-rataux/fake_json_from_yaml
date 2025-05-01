@@ -6,4 +6,4 @@ observations: text
 status: "1"
 
 user: template
-vehicule: template
+vehicule: template rng 1 3
