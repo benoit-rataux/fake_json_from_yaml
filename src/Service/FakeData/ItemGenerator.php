@@ -120,7 +120,7 @@ class ItemGenerator {
 
         foreach($instructions as $instruction) {
 
-            $call = $call->$instruction;
+            $call = $call->$instruction();
         }
 
         return $call;
@@ -165,6 +165,11 @@ class ItemGenerator {
                 }
             }
         }
+
+//        if($instructionsWords[0] === 'datetime') {
+//            $fakerMethod = $this->faker;
+//            if($instructionsWords[1] === 'now') $fakerMethod = $fakerMethod->dateTime()
+//        }
 
 //            if($instructions === 'datetime') {
 //                $fakeItem[$key] = $this->randomDateTime();
