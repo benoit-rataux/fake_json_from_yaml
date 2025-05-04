@@ -1,5 +1,0 @@
-templates_directory: SynapsIA/fms
-
-template:
-    name: reservation
-    quantity: 10
