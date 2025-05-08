@@ -2,11 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\FakerNodeRepository;
+use App\Repository\InstructionsNodeRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: FakerNodeRepository::class)]
-class FakerNode extends Node {
+#[ORM\Entity(repositoryClass: InstructionsNodeRepository::class)]
+class InstructionsNode extends Node {
 
     #[ORM\Column(length: 80, nullable: true)]
     protected ?string $instructions = null;

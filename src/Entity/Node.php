@@ -8,9 +8,9 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\InheritanceType('JOINED')]
 #[ORM\DiscriminatorColumn(name: 'discriminator', type: 'string')]
 #[ORM\DiscriminatorMap([
-    'list'     => 'App\Entity\ListNode',
-    'template' => 'App\Entity\NestedTemplateNode',
-    'faker'    => 'App\Entity\FakerNode',
+    'list'         => 'App\Entity\ListNode',
+    'template'     => 'App\Entity\NestedTemplateNode',
+    'instructions' => 'App\Entity\InstructionsNode',
 ])]
 abstract class Node {
 

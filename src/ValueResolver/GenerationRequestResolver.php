@@ -2,7 +2,7 @@
 
 namespace App\ValueResolver;
 
-use App\Entity\FakerNode;
+use App\Entity\InstructionsNode;
 use App\Entity\ListNode;
 use App\Entity\NestedTemplateNode;
 use App\Entity\Node;
@@ -81,12 +81,13 @@ final class GenerationRequestResolver implements ValueResolverInterface {
     }
 
     private function toNestedTemplateNode(string $label, array $data): NestedTemplateNode {
-        return (new NestedTemplateNode())->setLabel($label);
+        return (new NestedTemplateNode())->setLabel($label)
+                                         ->setNestedTemplate($this->toTemplate($data));
     }
 
-    private function toFakerNode(string $label, mixed $data): FakerNode {
-        return (new FakerNode())->setLabel($label)
-                                ->setInstructions($data);
+    private function toInstructionsNode(string $label, mixed $data): InstructionsNode {
+        return (new InstructionsNode())->setLabel($label)
+                                       ->setInstructions($data);
     }
 
     private function toNode(
@@ -99,7 +100,7 @@ final class GenerationRequestResolver implements ValueResolverInterface {
         if(is_array($data))
             return $this->toNestedTemplateNode($label, $data);
 
-        return $this->toFakerNode($label, $data);
+        return $this->toInstructionsNode($label, $data);
     }
 
 }
