@@ -1,0 +1,90 @@
+<?php
+
+namespace App\Service;
+
+use App\Entity\InstructionsNode;
+use App\Entity\ListNode;
+use App\Entity\NestedTemplateNode;
+use App\Entity\Node;
+use App\Entity\Template;
+use App\Model\GenerationRequest;
+
+class GenerationManager {
+
+    private $faker;
+
+    public function __construct() {
+        $this->faker = \Faker\Factory::create();
+    }
+
+
+    /**
+     * @throws \Exception
+     */
+    public function generate(
+        GenerationRequest $generationRequest,
+    ): array {
+        $template = $generationRequest->getTemplate();
+        return $this->evaluateTemplate($template);
+    }
+
+    /**
+     * @throws \Exception
+     */
+    private function evaluateTemplate(Template $template): array {
+        $nodes = $template->getNodes();
+        $data  = [];
+
+//        return array_map(
+//            fn(Node $node) => $this->evaluate($node),
+//            $nodes->toArray(),
+//        );
+        foreach($nodes as $node) {
+            $data = $this->evaluate($node, $data);
+        }
+        return $data;
+    }
+
+    /**
+     * @throws \Exception
+     */
+    private function evaluate(Node $node, array $data): array {
+//        return [
+//            $node->getLabel() => $this->calculateValue($node),
+//        ];
+        $data[$node->getLabel()] = $this->calculateValue($node);
+        return $data;
+    }
+
+    /**
+     * @throws \Exception
+     */
+    private function calculateValue(Node $node): mixed {
+        if($node instanceof ListNode) return $this->evaluateList($node);
+        if($node instanceof NestedTemplateNode) return $this->evaluateNestedTemplate($node);
+        if($node instanceof InstructionsNode) return $this->evaluateInstructions($node);
+        throw new \Exception('Generation don\'t support this type of Node : ' . $node::class);
+    }
+
+    private function evaluateList(ListNode $node): mixed {
+        $list     = $node->getList();
+        $rngIndex = $this->faker->numberBetween(
+            0,
+            sizeof($list) - 1,
+        );
+        return $list[$rngIndex];
+    }
+
+    /**
+     * @throws \Exception
+     */
+    private function evaluateNestedTemplate(NestedTemplateNode $node): array {
+        return $this->evaluateTemplate($node->getNestedTemplate());
+    }
+
+    private function evaluateInstructions(InstructionsNode $node): mixed {
+        return $node->getInstructions();
+    }
+
+
+}

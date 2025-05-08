@@ -3,6 +3,7 @@
 namespace App\Controller\Api;
 
 use App\Model\GenerationRequest;
+use App\Service\GenerationManager;
 use App\ValueResolver\Attribute\MapJsonGenerationRequest;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -14,12 +15,16 @@ final class ItemsGeneratorController extends AbstractController {
     #[Route(methods: ['POST'], path: '', name: '_from_yaml', format: 'text')]
     public function generate(
         #[MapJsonGenerationRequest()] GenerationRequest $generationRequest,
+        GenerationManager                               $generationManager,
     ): JsonResponse {
 
-        dd($generationRequest);
-        return $this->json([
-            'request' => $generationRequest,
-        ]);
+        $data = $generationManager->generate($generationRequest);
+
+//        return $this->json([
+//            'request' => $generationRequest,
+//            'data'    => $data,
+//        ]);
+        return $this->json($data);
     }
 
 }
