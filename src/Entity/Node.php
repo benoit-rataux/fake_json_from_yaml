@@ -22,13 +22,6 @@ abstract class Node {
     #[ORM\Column(length: 20)]
     protected ?string $label = null;
 
-    #[ORM\Column(length: 80, nullable: true)]
-    protected ?string $instructions = null;
-
-    #[ORM\ManyToOne(inversedBy: 'nodes')]
-    #[ORM\JoinColumn(nullable: false)]
-    protected ?Template $template = null;
-
     public function getId(): ?int {
         return $this->id;
     }
@@ -39,26 +32,6 @@ abstract class Node {
 
     public function setLabel(string $label): static {
         $this->label = $label;
-
-        return $this;
-    }
-
-    public function getInstructions(): ?string {
-        return $this->instructions;
-    }
-
-    public function setInstructions(?string $instructions): static {
-        $this->instructions = $instructions;
-
-        return $this;
-    }
-
-    public function getNestedTemplate(): ?Template {
-        return $this->template;
-    }
-
-    public function setNestedTemplate(?Template $template): static {
-        $this->template = $template;
 
         return $this;
     }

@@ -16,7 +16,7 @@ final class ItemsGeneratorController extends AbstractController {
         #[MapJsonGenerationRequest()] GenerationRequest $generationRequest,
     ): JsonResponse {
 
-
+        dd($generationRequest);
         return $this->json([
             'request' => $generationRequest,
         ]);

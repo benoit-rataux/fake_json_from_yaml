@@ -51,7 +51,6 @@ final class GenerationRequestResolver implements ValueResolverInterface {
 //        );
 
 
-//        dd($generationRequest);
         return [$generationRequest];
     }
 

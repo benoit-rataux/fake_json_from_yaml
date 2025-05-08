@@ -52,19 +52,13 @@ class Template {
     public function addNode(Node $node): static {
         if(!$this->nodes->contains($node)) {
             $this->nodes->add($node);
-            $node->setNestedTemplate($this);
         }
 
         return $this;
     }
 
     public function removeNode(Node $node): static {
-        if($this->nodes->removeElement($node)) {
-            // set the owning side to null (unless already changed)
-            if($node->getNestedTemplate() === $this) {
-                $node->setNestedTemplate(null);
-            }
-        }
+        $this->nodes->removeElement($node);
 
         return $this;
     }
