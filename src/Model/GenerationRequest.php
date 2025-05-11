@@ -6,9 +6,18 @@ use App\Entity\Template;
 
 class GenerationRequest {
 
+    private string   $locale;
     private int      $quantity;
     private Template $template;
 
+    public function getLocale(): string {
+        return $this->locale;
+    }
+
+    public function setLocale(string $locale): GenerationRequest {
+        $this->locale = $locale;
+        return $this;
+    }
 
     public function getQuantity(): int {
         return $this->quantity;
