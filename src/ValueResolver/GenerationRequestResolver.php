@@ -56,6 +56,7 @@ final class GenerationRequestResolver implements ValueResolverInterface {
 
     private function toGenerationRequest(array $data): GenerationRequest {
         return (new GenerationRequest())
+            ->setLocale('fr_FR')
             ->setQuantity(1)
             ->setTemplate($this->toTemplate($data));
     }

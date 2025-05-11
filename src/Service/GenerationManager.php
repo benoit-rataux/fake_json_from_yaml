@@ -8,13 +8,14 @@ use App\Entity\NestedTemplateNode;
 use App\Entity\Node;
 use App\Entity\Template;
 use App\Model\GenerationRequest;
+use Exception;
 
 class GenerationManager {
 
     private $faker;
 
     public function __construct() {
-        $this->faker = \Faker\Factory::create();
+        $this->faker = \Faker\Factory::create('fr_FR');
     }
 
 
@@ -83,7 +84,33 @@ class GenerationManager {
     }
 
     private function evaluateInstructions(InstructionsNode $node): mixed {
-        return $node->getInstructions();
+
+        try {
+            $instructions = explode('->', $node->getInstructions());
+            $execute      = $this->faker;
+
+            foreach($instructions as $instruction) {
+                $matches = [];
+
+                preg_match(
+                    '/([a-zA-Z0-9]+)(\((.+)\))*/',
+                    $instruction,
+                    $matches,
+                );
+
+                $fn     = $matches[1];
+                $params = explode(',', $matches[3] ?? '');
+
+                $execute = $execute->{$fn}(...$params);
+            }
+
+            return $execute;
+
+        } catch(Exception $exception) {
+
+//            dd($exception);
+            return $node->getInstructions();
+        }
     }
 
 
