@@ -40,7 +40,7 @@ final class GenerationRequestResolver implements ValueResolverInterface {
 
         $payload = Yaml::parse($request->getContent());
 
-        $generationRequest = $this->toGenerationRequest($payload);
+        $generationRequest = $this->toGenerationRequest($payload, $request->query->all());
 
 
 //        $generationRequest = $this->serializer->deserialize(
@@ -54,11 +54,18 @@ final class GenerationRequestResolver implements ValueResolverInterface {
         return [$generationRequest];
     }
 
-    private function toGenerationRequest(array $data): GenerationRequest {
+    private function toGenerationRequest(
+        array $payload,
+        array $arguments,
+    ): GenerationRequest {
+        $locale   = $arguments['locale'] ?? 'fr_FR';
+        $quantity = $arguments['quantity'] ?? 1;
+        $template = $this->toTemplate($payload);
+
         return (new GenerationRequest())
-            ->setLocale('fr_FR')
-            ->setQuantity(1)
-            ->setTemplate($this->toTemplate($data));
+            ->setLocale($locale)
+            ->setQuantity($quantity)
+            ->setTemplate($template);
     }
 
     private function toTemplate(array $data): Template {
