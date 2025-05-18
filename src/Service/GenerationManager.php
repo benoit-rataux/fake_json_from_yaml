@@ -26,20 +26,34 @@ class GenerationManager {
         GenerationRequest $generationRequest,
     ): array {
         $template = $generationRequest->getTemplate();
-        return $this->evaluateTemplate($template);
+        $quantity = $generationRequest->getQuantity();
+
+        if($quantity <= 1)
+            return $this->generateOneItem($template);
+
+        return $this->generateListOfItems($template, $quantity);
+    }
+
+    /**
+     * @throws Exception
+     */
+    private function generateListOfItems(Template $template, int $quantity): array {
+        $listOfItems = [];
+
+        for($i = 0; $i < $quantity; ++$i) {
+            $listOfItems[] = $this->generateOneItem($template);
+        }
+
+        return $listOfItems;
     }
 
     /**
      * @throws \Exception
      */
-    private function evaluateTemplate(Template $template): array {
+    private function generateOneItem(Template $template): array {
         $nodes = $template->getNodes();
         $data  = [];
 
-//        return array_map(
-//            fn(Node $node) => $this->evaluate($node),
-//            $nodes->toArray(),
-//        );
         foreach($nodes as $node) {
             $data = $this->evaluate($node, $data);
         }
@@ -80,7 +94,7 @@ class GenerationManager {
      * @throws \Exception
      */
     private function evaluateNestedTemplate(NestedTemplateNode $node): array {
-        return $this->evaluateTemplate($node->getNestedTemplate());
+        return $this->generateOneItem($node->getNestedTemplate());
     }
 
     private function evaluateInstructions(InstructionsNode $node): mixed {

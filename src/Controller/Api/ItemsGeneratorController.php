@@ -18,6 +18,7 @@ final class ItemsGeneratorController extends AbstractController {
         GenerationManager                               $generationManager,
     ): JsonResponse {
 
+        
         $data = $generationManager->generate($generationRequest);
 
 //        return $this->json([
