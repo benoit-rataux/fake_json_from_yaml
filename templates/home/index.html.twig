@@ -19,6 +19,70 @@
 
     <div class="example-wrapper">
         <h1>Hello there ! ✅</h1>
+        <h2>Bienvenue sur le json generator !</h2>
+
+        <section>
+            <h3>Utilisation du générateur</h3>
+            <ul>
+                <li>endpoint: POST /api/generate</li>
+                <li>Body: raw Text, template au format yaml</li>
+                <li>Params: optionnels
+                    <ul>
+                        <li>quantity: quantité d'items à générer à partir du template</li>
+                        <li>locale: par défault 'fr_FR'. Impacte la génération des noms, adresses, ect...</li>
+                    </ul>
+                </li>
+            </ul>
+        </section>
+
+        <section>
+            <h3>Documentation</h3>
+
+            <article>
+                <h4>Génération des valeurs</h4>
+                <p>
+                    Cet outil s'appuie sur <a href="https://fakerphp.org/">faker php</a>.
+                </p>
+            </article>
+
+            <article>
+                <h4>Templates</h4>
+                <p>Les templates sont au format yaml.</p>
+                <ul>
+                    <li>Il est possible de chaîner les méthodes comme dans la <a href="https://fakerphp.org/">documentation</a> de faker php</li>
+                    <li>Quand la valeur ne correspond pas à une instruction interprétable, alors elle sera conservée telle quelle.</li>
+                </ul>
+
+                <h5>exemple de template :</h5>
+                <pre>
+# chaînage
+nom: unique->lastname
+prenom: firstname
+                    
+# fonction avec paramètres
+nombre_aleatoire: numberBetween(0,10)
+
+# sous-template voiture
+voiture:
+    id: uuid
+
+    # choisira un élément aléatoire de la liste
+    marque:
+        - Renauld
+        - Pigeot
+        - BMVV
+
+    # conservera la valeur telle quelle
+    couleur: rose métalisé à poids verts et rayures jaunes
+                </pre>
+
+                <h5>résultat</h5>
+                <pre>
+
+                </pre>
+            </article>
+
+        </section>
 
     </div>
 {% endblock %}
