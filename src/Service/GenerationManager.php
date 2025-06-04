@@ -55,7 +55,7 @@ class GenerationManager {
         $data  = [];
 
         foreach($nodes as $node) {
-            $data = $this->evaluate($node, $data);
+            $data = $this->constructResponse($node, $data);
         }
         return $data;
     }
@@ -63,18 +63,15 @@ class GenerationManager {
     /**
      * @throws \Exception
      */
-    private function evaluate(Node $node, array $data): array {
-//        return [
-//            $node->getLabel() => $this->calculateValue($node),
-//        ];
-        $data[$node->getLabel()] = $this->calculateValue($node);
-        return $data;
+    private function constructResponse(Node $node, array $response): array {
+        $response[$node->getLabel()] = $this->evaluate($node);
+        return $response;
     }
 
     /**
      * @throws \Exception
      */
-    private function calculateValue(Node $node): mixed {
+    private function evaluate(Node $node): mixed {
         if($node instanceof ListNode) return $this->evaluateList($node);
         if($node instanceof NestedTemplateNode) return $this->evaluateNestedTemplate($node);
         if($node instanceof InstructionsNode) return $this->evaluateInstructions($node);
